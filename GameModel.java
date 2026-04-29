@@ -166,4 +166,20 @@ public class GameModel {
         int x, y;
         Bullet(int x, int y) { this.x = x; this.y = y; }
     }
+
+    // For testing purposes
+    public void setPlayerBullet(int x, int y) {
+        playerBullet = new Bullet(x, y);
+    }
+
+    public void setAlienPosition(int index, int x, int y) {
+        if (index >= 0 && index < aliens.size()) {
+            aliens.get(index).x = x;
+            aliens.get(index).y = y;
+        }
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
 }
