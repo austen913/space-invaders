@@ -48,11 +48,10 @@ public class GameView extends JPanel {
             }
         }
 
-        // Draw player bullet
-        GameModel.Bullet playerBullet = model.getPlayerBullet();
-        if (playerBullet != null) {
-            g.setColor(Color.YELLOW);
-            g.fillRect(playerBullet.x - 2, playerBullet.y, 5, 10);
+        // Draw player bullets
+        g.setColor(Color.YELLOW);
+        for (GameModel.Bullet bullet : model.getPlayerBullets()) {
+            g.fillRect(bullet.x - 2, bullet.y, 5, 10);
         }
 
         // Draw alien bullets

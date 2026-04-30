@@ -34,3 +34,15 @@ Fixes: told the AI "instead of the first three aliens, it should be random alien
 
 Result: the blue aliens are now in random spots every time
 
+Prompt 9: after defeating a blue alien, the player should now fire multiple bullets parallel to each other. each blue alien that is defeated should increase the bullet count by 1. losing a life should subtract 1 from the bullet count unless the bullet count is 1
+
+Result: multiple bullets can now be fired at once after defeating a blue alien, but now you can spam fire bullets instead of having to wait until they are gone. losing a life does remove a bullet and you can't have less than 1 bullet. also added a test to modeltester
+
+Fixes: told the AI "i want it so you can't shoot if bullets are already in flight"
+
+Fixes: modeltester said destroying blue alien increases bullet count: FAIL even thought it worked so I told the AI and it fixed it
+
+Result: you can't spam fire anymore and you can still shoot multiple bullets when a blue alien is defeated.
+
+Prompt 10: 
+

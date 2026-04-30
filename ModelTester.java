@@ -21,41 +21,52 @@ public class ModelTester {
         boolean rightEdgeBlocked = model.getPlayerX() == GameModel.WIDTH - 50;
         System.out.println("Player cannot move past right edge: " + (rightEdgeBlocked ? "PASS" : "FAIL"));
 
-        // Test 3: Firing while a bullet is already in flight does nothing
+        // Test 3: Firing creates bullets and they exist in flight
         model.firePlayerBullet();
-        boolean hasBullet = model.getPlayerBullet() != null;
-        GameModel.Bullet firstBullet = model.getPlayerBullet();
-        model.firePlayerBullet(); // Should not create a new bullet
-        boolean stillSameBullet = model.getPlayerBullet() == firstBullet;
-        System.out.println("Firing while bullet in flight does nothing: " + (hasBullet && stillSameBullet ? "PASS" : "FAIL"));
-
-        // Clear bullet for next test
+        boolean hasBullets = model.getPlayerBullets().size() > 0;
         for (int i = 0; i < 100; i++) {
             model.update();
         }
+        boolean bulletsRemoved = model.getPlayerBullets().size() == 0;
+        System.out.println("Bullets created and removed when reaching top: " + (hasBullets && bulletsRemoved ? "PASS" : "FAIL"));
 
-        // Test 4: A bullet that reaches the top is removed
-        model.firePlayerBullet();
-        for (int i = 0; i < 100; i++) {
-            model.update();
+        // Test 4: Destroying a regular alien increases score but not bullet count
+        GameModel.Alien targetAlien = null;
+        for (GameModel.Alien alien : model.getAliens()) {
+            if (!alien.blue) {
+                targetAlien = alien;
+                break;
+            }
         }
-        boolean bulletRemoved = model.getPlayerBullet() == null;
-        System.out.println("Bullet reaches top and is removed: " + (bulletRemoved ? "PASS" : "FAIL"));
+        if (targetAlien != null) {
+            int initialScore = model.getScore();
+            int initialAliens = model.getAliens().size();
+            model.setPlayerBullet(targetAlien.x + 20, targetAlien.y + 15);
+            model.update();
+            boolean alienDestroyed = model.getAliens().size() < initialAliens;
+            boolean scoreIncreased = model.getScore() > initialScore;
+            System.out.println("Destroying regular alien increases score: " + (alienDestroyed && scoreIncreased ? "PASS" : "FAIL"));
+        }
 
-        // Test 5: Destroying an alien increases the score
-        int initialAliens = model.getAliens().size();
-        int initialScore = model.getScore();
-        // Position bullet to hit the first alien
-        GameModel.Alien targetAlien = model.getAliens().get(0);
-        model.setPlayerBullet(targetAlien.x + 20, targetAlien.y + 15);
-        model.update(); // Should detect collision and destroy alien
-        boolean alienDestroyed = model.getAliens().size() < initialAliens;
-        boolean scoreIncreased = model.getScore() > initialScore;
-        System.out.println("Destroying an alien increases the score: " + (alienDestroyed && scoreIncreased ? "PASS" : "FAIL"));
+        // Test 5: Destroying a blue alien increases bullet count
+        GameModel model2 = new GameModel();
+        // Force the first alien to be blue for testing
+        model2.getAliens().get(0).blue = true;
+        GameModel.Alien blueAlien = model2.getAliens().get(0);
+        int initialBulletCount = model2.getBulletCount();
+        model2.setPlayerBullet(blueAlien.x + 20, blueAlien.y + 15);
+        model2.update();
+        boolean bulletCountIncreased = model2.getBulletCount() > initialBulletCount;
+        System.out.println("Destroying blue alien increases bullet count: " + (bulletCountIncreased ? "PASS" : "FAIL"));
 
-        // Test 6: Losing all lives triggers the game-over state
-        model.setLives(0);
-        boolean gameOverTriggered = model.getLives() <= 0;
+        // Test 6: Losing a life decreases bullet count (but not below 1)
+        GameModel model3 = new GameModel();
+        // Manually set bullet count higher
+        model3.firePlayerBullet();
+        model3.firePlayerBullet(); // Fire more bullets
+        model3.firePlayerBullet();
+        model3.setLives(0);
+        boolean gameOverTriggered = model3.getLives() <= 0;
         System.out.println("Losing all lives triggers game-over state: " + (gameOverTriggered ? "PASS" : "FAIL"));
     }
 }

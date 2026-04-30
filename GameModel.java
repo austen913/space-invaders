@@ -27,8 +27,9 @@ public class GameModel {
 
     private int playerX = WIDTH / 2;
     private List<Alien> aliens = new ArrayList<>();
-    private Bullet playerBullet = null;
+    private List<Bullet> playerBullets = new ArrayList<>();
     private List<Bullet> alienBullets = new ArrayList<>();
+    private int bulletCount = 1;
     private int score = 0;
     private int lives = 3;
     private int alienDirection = 1; // 1 right, -1 left
@@ -69,8 +70,13 @@ public class GameModel {
     }
 
     public void firePlayerBullet() {
-        if (playerBullet == null) {
-            playerBullet = new Bullet(playerX + 25, PLAYER_Y);
+        if (!playerBullets.isEmpty()) {
+            return;
+        }
+        int spacing = 30;
+        for (int i = 0; i < bulletCount; i++) {
+            int offsetX = (bulletCount - 1) * spacing / 2 - i * spacing;
+            playerBullets.add(new Bullet(playerX + 25 + offsetX, PLAYER_Y));
         }
     }
 
@@ -83,10 +89,11 @@ public class GameModel {
     }
 
     private void updatePlayerBullet() {
-        if (playerBullet != null) {
-            playerBullet.y -= BULLET_SPEED;
-            if (playerBullet.y < 0) {
-                playerBullet = null;
+        for (Iterator<Bullet> it = playerBullets.iterator(); it.hasNext();) {
+            Bullet b = it.next();
+            b.y -= BULLET_SPEED;
+            if (b.y < 0) {
+                it.remove();
             }
         }
     }
@@ -132,15 +139,20 @@ public class GameModel {
     }
 
     private void checkCollisions() {
-        // Player bullet vs aliens
-        if (playerBullet != null) {
-            for (Iterator<Alien> it = aliens.iterator(); it.hasNext();) {
-                Alien a = it.next();
-                if (collides(playerBullet, a)) {
-                    it.remove();
-                    playerBullet = null;
+        // Player bullets vs aliens
+        for (Iterator<Bullet> bulletIt = playerBullets.iterator(); bulletIt.hasNext();) {
+            Bullet b = bulletIt.next();
+            for (Iterator<Alien> alienIt = aliens.iterator(); alienIt.hasNext();) {
+                Alien a = alienIt.next();
+                if (collides(b, a)) {
+                    bulletIt.remove();
+                    boolean wasBlue = a.blue;
+                    alienIt.remove();
                     score += 10;
                     updateHighScore();
+                    if (wasBlue) {
+                        bulletCount++;
+                    }
                     break;
                 }
             }
@@ -151,6 +163,9 @@ public class GameModel {
             if (collides(b, playerX, PLAYER_Y, 50, 20)) {
                 it.remove();
                 lives--;
+                if (bulletCount > 1) {
+                    bulletCount--;
+                }
                 break;
             }
         }
@@ -167,10 +182,11 @@ public class GameModel {
     // Getters for the view
     public int getPlayerX() { return playerX; }
     public List<Alien> getAliens() { return aliens; }
-    public Bullet getPlayerBullet() { return playerBullet; }
+    public List<Bullet> getPlayerBullets() { return playerBullets; }
     public List<Bullet> getAlienBullets() { return alienBullets; }
     public int getScore() { return score; }
     public int getLives() { return lives; }
+    public int getBulletCount() { return bulletCount; }
     public int getHighScore() { return highScore; }
 
     enum AlienShape {
@@ -198,7 +214,7 @@ public class GameModel {
 
     // For testing purposes
     public void setPlayerBullet(int x, int y) {
-        playerBullet = new Bullet(x, y);
+        playerBullets.add(new Bullet(x, y));
     }
 
     public void setAlienPosition(int index, int x, int y) {
