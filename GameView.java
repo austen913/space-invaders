@@ -33,7 +33,19 @@ public class GameView extends JPanel {
         // Draw aliens
         g.setColor(Color.RED);
         for (GameModel.Alien alien : model.getAliens()) {
-            g.fillRect(alien.x, alien.y, 40, 30);
+            switch (alien.shape) {
+                case SQUARE:
+                    g.fillRect(alien.x, alien.y, 40, 30);
+                    break;
+                case CIRCLE:
+                    g.fillOval(alien.x, alien.y, 40, 30);
+                    break;
+                case TRIANGLE:
+                    int[] xs = {alien.x, alien.x + 20, alien.x + 40};
+                    int[] ys = {alien.y + 30, alien.y, alien.y + 30};
+                    g.fillPolygon(xs, ys, 3);
+                    break;
+            }
         }
 
         // Draw player bullet

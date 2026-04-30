@@ -43,7 +43,8 @@ public class GameModel {
             for (int col = 0; col < ALIEN_COLS; col++) {
                 int x = col * ALIEN_SPACING_X + 50;
                 int y = ALIEN_START_Y + row * ALIEN_SPACING_Y;
-                aliens.add(new Alien(x, y));
+                AlienShape shape = AlienShape.values()[random.nextInt(AlienShape.values().length)];
+                aliens.add(new Alien(x, y, shape));
             }
         }
     }
@@ -163,9 +164,20 @@ public class GameModel {
     public int getLives() { return lives; }
     public int getHighScore() { return highScore; }
 
+    enum AlienShape {
+        SQUARE,
+        CIRCLE,
+        TRIANGLE
+    }
+
     static class Alien {
         int x, y;
-        Alien(int x, int y) { this.x = x; this.y = y; }
+        AlienShape shape;
+        Alien(int x, int y, AlienShape shape) {
+            this.x = x;
+            this.y = y;
+            this.shape = shape;
+        }
     }
 
     static class Bullet {

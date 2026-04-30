@@ -4,7 +4,7 @@ Result: the 3 files were created and a blank window opens when ran
 
 Prompt 2: Fill in GameModel.java. The model should track: the player's horizontal position, the alien formation (5 rows of 11), the player's bullet (one at a time), alien bullets, the score, and lives remaining (start with 3). Add logic to: move the player left and right, fire a player bullet if one isn't already in flight, advance the player's bullet each tick, move the alien formation right until the edge then down and reverse, fire alien bullets at random intervals, and detect collisions between bullets and aliens or the player. No Swing imports.
 
-Result: added code to gamemodel.java
+Result: added code to gamemodel.java that handles game logic
 
 Prompt 3: Fill in GameView.java. It should take a reference to the model and draw everything the player sees: the player, the alien formation, both sets of bullets, the score, and remaining lives. Show a centered game-over message when the game ends. The view should only read from the model — it must never change game state.
 
@@ -22,4 +22,9 @@ Prompt 6: Add a high score that persists across games
 
 Result: a high score is shown in the top left
 
-Prompt 7: 
+Prompt 7: make it so the aliens are either a square, circle, or triangle.
+
+Result: the aliens are now a square, a circle, or a triangle. gamemodel.java has the code and gameview.java renders it.
+
+
+
