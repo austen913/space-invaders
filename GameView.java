@@ -64,14 +64,15 @@ public class GameView extends JPanel {
         g.setColor(Color.WHITE);
         g.drawString("Score: " + model.getScore(), 10, 20);
         g.drawString("High Score: " + model.getHighScore(), 10, 40);
+        g.drawString("Wave: " + model.getWave(), 10, 60);
 
         // Draw lives
         g.drawString("Lives: " + model.getLives(), getWidth() - 100, 20);
 
         // Draw game over message if game ended
-        if (model.getLives() <= 0 || model.getAliens().isEmpty()) {
+        if (model.getLives() <= 0) {
             g.setColor(Color.RED);
-            String message = model.getLives() <= 0 ? "Game Over" : "You Win!";
+            String message = "Game Over";
             int x = getWidth() / 2 - g.getFontMetrics().stringWidth(message) / 2;
             int y = getHeight() / 2;
             g.drawString(message, x, y);

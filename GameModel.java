@@ -33,6 +33,8 @@ public class GameModel {
     private int score = 0;
     private int lives = 3;
     private int alienDirection = 1; // 1 right, -1 left
+    private int alienSpeed = ALIEN_SPEED;
+    private int wave = 1;
     private Random random = new Random();
 
     public GameModel() {
@@ -40,6 +42,7 @@ public class GameModel {
     }
 
     private void initializeAliens() {
+        aliens.clear();
         for (int row = 0; row < ALIEN_ROWS; row++) {
             for (int col = 0; col < ALIEN_COLS; col++) {
                 int x = col * ALIEN_SPACING_X + 50;
@@ -86,6 +89,14 @@ public class GameModel {
         fireAlienBullet();
         updateAlienBullets();
         checkCollisions();
+
+        // Check for new wave
+        if (aliens.isEmpty()) {
+            wave++;
+            alienSpeed += 2;
+            alienDirection = 1;
+            initializeAliens();
+        }
     }
 
     private void updatePlayerBullet() {
@@ -116,7 +127,7 @@ public class GameModel {
             }
         } else {
             for (Alien a : aliens) {
-                a.x += alienDirection * ALIEN_SPEED;
+                a.x += alienDirection * alienSpeed;
             }
         }
     }
@@ -188,6 +199,7 @@ public class GameModel {
     public int getLives() { return lives; }
     public int getBulletCount() { return bulletCount; }
     public int getHighScore() { return highScore; }
+    public int getWave() { return wave; }
 
     enum AlienShape {
         SQUARE,

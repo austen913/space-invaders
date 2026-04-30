@@ -65,6 +65,6 @@ public class GameController {
 
     // Check if the game is over
     private boolean isGameOver() {
-        return model.getLives() <= 0 || model.getAliens().isEmpty();
+        return model.getLives() <= 0;
     }
 }

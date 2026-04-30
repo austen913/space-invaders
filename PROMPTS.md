@@ -44,5 +44,8 @@ Fixes: modeltester said destroying blue alien increases bullet count: FAIL even 
 
 Result: you can't spam fire anymore and you can still shoot multiple bullets when a blue alien is defeated.
 
-Prompt 10: 
+Prompt 10: make it so when you defeat all the aliens, there should be a new wave of them where they move faster than the wave before it. bullet count should carry over to the next wave. the game should only end when you die.
 
+Result: there are now unlimited waves of aliens that get faster with each new wave until you die.
+
+Prompt 11: 
