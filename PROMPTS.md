@@ -50,4 +50,4 @@ Result: there are now unlimited waves of aliens that get faster with each new wa
 
 Prompt 11: make it so each new wave the aliens shoot at faster intervals
 
-Result: aliens now shoot faster
+Result: aliens now shoot faster because it was too easy before
