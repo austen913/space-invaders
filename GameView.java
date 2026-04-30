@@ -52,6 +52,7 @@ public class GameView extends JPanel {
         // Draw score
         g.setColor(Color.WHITE);
         g.drawString("Score: " + model.getScore(), 10, 20);
+        g.drawString("High Score: " + model.getHighScore(), 10, 40);
 
         // Draw lives
         g.drawString("Lives: " + model.getLives(), getWidth() - 100, 20);

@@ -18,4 +18,8 @@ Prompt 5: Create a separate file called ModelTester.java with a main method. It 
 
 Result: added a file for testing
 
-Prompt 6: 
+Prompt 6: Add a high score that persists across games
+
+Result: a high score is shown in the top left
+
+Prompt 7: 

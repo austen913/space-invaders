@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 
 /**
@@ -20,6 +21,9 @@ public class GameModel {
     public static final int ALIEN_SPACING_Y = 30;
     public static final int PLAYER_Y = HEIGHT - 50;
     public static final int ALIEN_START_Y = 50;
+    public static final String HIGH_SCORE_FILE = "highscore.txt";
+
+    private static int highScore = loadHighScore();
 
     private int playerX = WIDTH / 2;
     private List<Alien> aliens = new ArrayList<>();
@@ -126,6 +130,7 @@ public class GameModel {
                     it.remove();
                     playerBullet = null;
                     score += 10;
+                    updateHighScore();
                     break;
                 }
             }
@@ -156,6 +161,7 @@ public class GameModel {
     public List<Bullet> getAlienBullets() { return alienBullets; }
     public int getScore() { return score; }
     public int getLives() { return lives; }
+    public int getHighScore() { return highScore; }
 
     static class Alien {
         int x, y;
@@ -181,5 +187,32 @@ public class GameModel {
 
     public void setLives(int lives) {
         this.lives = lives;
+    }
+
+    private static int loadHighScore() {
+        File file = new File(HIGH_SCORE_FILE);
+        if (!file.exists()) {
+            return 0;
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line = reader.readLine();
+            return line == null ? 0 : Integer.parseInt(line.trim());
+        } catch (IOException | NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    private static void saveHighScore() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(HIGH_SCORE_FILE))) {
+            writer.write(Integer.toString(highScore));
+        } catch (IOException ignored) {
+        }
+    }
+
+    private void updateHighScore() {
+        if (score > highScore) {
+            highScore = score;
+            saveHighScore();
+        }
     }
 }
