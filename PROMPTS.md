@@ -26,5 +26,11 @@ Prompt 7: make it so the aliens are either a square, circle, or triangle.
 
 Result: the aliens are now a square, a circle, or a triangle. gamemodel.java has the code and gameview.java renders it.
 
+Prompt 8: make it so 3 of the aliens are blue.
 
+Result: 3 of the aliens are now blue, but it is the three in the top left every time instead of random.
+
+Fixes: told the AI "instead of the first three aliens, it should be random aliens that are blue"
+
+Result: the blue aliens are now in random spots every time
 

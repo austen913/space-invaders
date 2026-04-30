@@ -44,8 +44,17 @@ public class GameModel {
                 int x = col * ALIEN_SPACING_X + 50;
                 int y = ALIEN_START_Y + row * ALIEN_SPACING_Y;
                 AlienShape shape = AlienShape.values()[random.nextInt(AlienShape.values().length)];
-                aliens.add(new Alien(x, y, shape));
+                aliens.add(new Alien(x, y, shape, false));
             }
+        }
+
+        // Randomly mark three distinct aliens as blue
+        Set<Integer> blueIndexes = new HashSet<>();
+        while (blueIndexes.size() < 3 && blueIndexes.size() < aliens.size()) {
+            blueIndexes.add(random.nextInt(aliens.size()));
+        }
+        for (int index : blueIndexes) {
+            aliens.get(index).blue = true;
         }
     }
 
@@ -173,10 +182,12 @@ public class GameModel {
     static class Alien {
         int x, y;
         AlienShape shape;
-        Alien(int x, int y, AlienShape shape) {
+        boolean blue;
+        Alien(int x, int y, AlienShape shape, boolean blue) {
             this.x = x;
             this.y = y;
             this.shape = shape;
+            this.blue = blue;
         }
     }
 

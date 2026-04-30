@@ -31,8 +31,8 @@ public class GameView extends JPanel {
         g.fillRect(model.getPlayerX(), GameModel.PLAYER_Y, 50, 20);
 
         // Draw aliens
-        g.setColor(Color.RED);
         for (GameModel.Alien alien : model.getAliens()) {
+            g.setColor(alien.blue ? Color.BLUE : Color.RED);
             switch (alien.shape) {
                 case SQUARE:
                     g.fillRect(alien.x, alien.y, 40, 30);
