@@ -48,4 +48,6 @@ Prompt 10: make it so when you defeat all the aliens, there should be a new wave
 
 Result: there are now unlimited waves of aliens that get faster with each new wave until you die.
 
-Prompt 11: 
+Prompt 11: make it so each new wave the aliens shoot at faster intervals
+
+Result: aliens now shoot faster

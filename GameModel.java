@@ -133,7 +133,7 @@ public class GameModel {
     }
 
     private void fireAlienBullet() {
-        if (random.nextInt(100) < 2 && !aliens.isEmpty()) {
+        if (random.nextInt(100) < 2 + wave && !aliens.isEmpty()) {
             Alien shooter = aliens.get(random.nextInt(aliens.size()));
             alienBullets.add(new Bullet(shooter.x + 20, shooter.y + 30));
         }
